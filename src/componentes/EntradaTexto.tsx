@@ -1,14 +1,14 @@
 import { FormControl, ITextProps, Input } from "native-base";
 
 interface EntradaTextoProps extends ITextProps {
-    label: string
+    label?: string
     placeholder?: string
 }
 
 export function EntradaTexto({ label, placeholder }: EntradaTextoProps) {
     return (
         <FormControl mt={3}>
-            <FormControl.Label>{label}</FormControl.Label>
+            {label && <FormControl.Label>{label}</FormControl.Label>}
             <Input
                 placeholder={placeholder}
                 size='lg'

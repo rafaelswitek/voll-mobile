@@ -1,9 +1,9 @@
-import { Divider, ScrollView, VStack } from "native-base";
+import { Divider, ScrollView } from "native-base";
 import { CardConsulta } from "../componentes/CardConsulta";
 import { Titulo } from "../componentes/Titulo";
 import { Botao } from "../componentes/Botao";
 
-export default function Consultas({ navigation }) {
+export default function Consultas() {
   return (
     <ScrollView p={5}>
       <Titulo color='blue.500'>Minhas Consultas</Titulo>
