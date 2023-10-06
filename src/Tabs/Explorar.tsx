@@ -1,17 +1,12 @@
-import { ScrollView, VStack } from "native-base";
+import { ScrollView } from "native-base";
 import { CardConsulta } from "../componentes/CardConsulta";
 import { Titulo } from "../componentes/Titulo";
-import { Botao } from "../componentes/Botao";
-import { EntradaTexto } from "../componentes/EntradaTexto";
+import { AreaBusca } from "../componentes/AreaBusca";
 
 export default function Explorar() {
   return (
     <ScrollView p={5}>
-      <VStack w='100%' bg='white' p='5' borderRadius='lg' shadow={2}>
-        <EntradaTexto placeholder="Digite a especialidade" />
-        <EntradaTexto placeholder="Digite sua localização" />
-        <Botao mt={5} mb={5}>Buscar</Botao>
-      </VStack>
+      <AreaBusca />
 
       <Titulo color='blue.500' mt={5} mb={5}>Resultados da busca</Titulo>
 

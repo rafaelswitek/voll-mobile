@@ -1,4 +1,4 @@
-import { Box, Checkbox, Image, ScrollView, Text, VStack } from 'native-base'
+import { Box, Checkbox, Image, ScrollView, Text } from 'native-base'
 import Logo from './assets/Logo.png'
 import { Titulo } from './componentes/Titulo';
 import { EntradaTexto } from './componentes/EntradaTexto';
