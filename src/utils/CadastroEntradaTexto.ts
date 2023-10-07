@@ -90,6 +90,7 @@ const secoes = [
     {
         id: 3,
         titulo: "Para finalizar, quais são os seus planos?",
+        entradaTexto: [],
         checkbox: [
             {
                 id: 1,

@@ -1,14 +1,15 @@
-import { Box, Checkbox, Image, ScrollView, Text, useToast } from 'native-base'
-import Logo from './assets/Logo.png'
-import { Titulo } from './componentes/Titulo';
-import { EntradaTexto } from './componentes/EntradaTexto';
-import { Botao } from './componentes/Botao';
+import { Image, Text, Box, Checkbox, ScrollView, useToast } from 'native-base'
 import { useState } from 'react';
+import Logo from './assets/Logo.png'
+import { Botao } from './componentes/Botao';
+import { EntradaTexto } from './componentes/EntradaTexto';
+import { Titulo } from './componentes/Titulo';
 import { secoes } from './utils/CadastroEntradaTexto';
 import { cadastrarPaciente } from './servicos/PacienteServico';
+import { NavigationProps } from './@types/navigation';
 
-export default function Cadastro() {
-  const [numSecao, setNumSecao] = useState(0)
+export default function Cadastro({ navigation }: NavigationProps<'Cadastro'>) {
+  const [numSecao, setNumSecao] = useState(0);
   const [dados, setDados] = useState({} as any);
   const [planos, setPlanos] = useState([] as number[])
   const toast = useToast()
@@ -16,7 +17,10 @@ export default function Cadastro() {
   function avancarSecao() {
     if (numSecao < secoes.length - 1) {
       setNumSecao(numSecao + 1)
-    } else {
+    }
+    else {
+      console.log(dados)
+      console.log(planos)
       cadastrar()
     }
   }
@@ -50,11 +54,19 @@ export default function Cadastro() {
       imagem: dados.imagem
     })
 
-    if (!resultado) {
+    if (resultado) {
       toast.show({
-        title: "Erro",
-        description: "erro ao fazer cadastro",
-        backgroundColor: "red.500"
+        title: 'Cadastro realizado com sucesso',
+        description: 'Você já pode fazer login',
+        backgroundColor: 'green.500',
+      })
+      navigation.replace('Login');
+    }
+    else {
+      toast.show({
+        title: 'Erro ao cadastrar',
+        description: 'Verifique os dados e tente novamente',
+        backgroundColor: 'red.500',
       })
     }
   }
@@ -62,6 +74,7 @@ export default function Cadastro() {
   return (
     <ScrollView flex={1} p={5}>
       <Image source={Logo} alt="Logo Voll" alignSelf="center" />
+
       <Titulo>
         {secoes[numSecao].titulo}
       </Titulo>
@@ -82,7 +95,9 @@ export default function Cadastro() {
         }
       </Box>
       <Box>
-        {numSecao == 2 && <Text color='blue.800' fontWeight='bold' fontSize='md' mt={2} mb={2}>Selecione os planos:</Text>}
+        {numSecao == 2 && <Text color="blue.800" fontWeight="bold" fontSize="md" mt="2" mb={2}>
+          Selecione o plano:
+        </Text>}
         {
           secoes[numSecao].checkbox.map(checkbox => {
             return (
@@ -104,23 +119,10 @@ export default function Cadastro() {
           })
         }
       </Box>
-
-      {
-        numSecao > 0 &&
-        <Botao
-          onPress={() => voltarSecao()}
-          bgColor="gray.400"
-        >
-          Voltar
-        </Botao>
-      }
-
-      {
-        <Botao onPress={() => avancarSecao()} mt={4} mb={20}>
-          {numSecao == 2 ? 'Finalizar' : 'Avançar'}
-        </Botao>
-      }
-
-    </ScrollView >
+      {numSecao > 0 && <Botao onPress={() => voltarSecao()} bgColor="gray.400">Voltar</Botao>}
+      <Botao onPress={() => avancarSecao()} mt={4} mb={20}>
+        {numSecao == 2 ? 'Finalizar' : 'Avançar'}
+      </Botao>
+    </ScrollView>
   );
 }

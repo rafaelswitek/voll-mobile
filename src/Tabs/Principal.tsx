@@ -1,25 +1,45 @@
-import { Image, ScrollView, Text, VStack } from "native-base";
-
-import { AreaBusca } from "../componentes/AreaBusca";
+import { VStack, Image, Box, ScrollView, Text, Divider } from "native-base";
+import Logo from '../assets/Logo.png';
+import { Botao } from "../componentes/Botao";
+import { EntradaTexto } from "../componentes/EntradaTexto";
 import { Titulo } from "../componentes/Titulo";
-import Logo from '../assets/Logo.png'
-import { Depoimento } from "../componentes/Depoimento";
+import { depoimentos } from "../utils/mock";
+
 
 export default function Principal() {
+
   return (
-    <ScrollView p={5}>
-      <Image source={Logo} alt="Logo Voll" alignSelf="flex-start" mt={5} />
-      <Titulo color='blue.500' alignSelf='flex-start' mt={5} mb={5}>Boas-vindas!</Titulo>
-      <AreaBusca />
+    <ScrollView flex={1} bgColor="white">
+      <VStack flex={1} alignItems="flex-start" justifyContent="flex-start" p={5}>
+        <Image source={Logo} alt="Logo" mt={10} />
+        <Titulo color="blue.500">Boas-vindas!</Titulo>
 
-      <Titulo color='blue.800' alignSelf='center' mt={5} mb={5}>Depoimentos</Titulo>
+        <Box w="100%" borderRadius="lg" p={3} mt={10} shadow="1" borderRightRadius="md">
+          <EntradaTexto
+            placeholder="Digite a especialidade"
+          />
+          <EntradaTexto
+            placeholder="Digite sua localização"
+          />
+          <Botao mt={3} mb={3}>
+            Buscar
+          </Botao>
+        </Box>
 
-      <Depoimento texto="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio." autor="Júlio, 40 anos, São Paulo/SP." />
-
-      <Depoimento texto="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio." autor="Júlio, 40 anos, São Paulo/SP." />
-
-      <Depoimento texto="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio." autor="Júlio, 40 anos, São Paulo/SP." />
-
+        <Titulo color="blue.800" alignSelf="center">Depoimentos</Titulo>
+        <VStack space={3} divider={<Divider />} w="100%">
+          {
+            depoimentos.map(depoimento => (
+              <Box key={depoimento.id} w="100%" borderRadius="lg" p={3}>
+                <Text color="gray.300" fontSize="md" textAlign="justify">
+                  {depoimento.text}
+                </Text>
+                <Text color="gray.500" fontSize="lg" fontWeight="bold" alignSelf="center" mt="2">{depoimento.titulo}</Text>
+              </Box>
+            ))
+          }
+        </VStack>
+      </VStack>
     </ScrollView>
   );
 }

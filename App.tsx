@@ -1,7 +1,7 @@
-import { NativeBaseProvider, StatusBar } from "native-base";
+import { NativeBaseProvider, StatusBar } from 'native-base';
 
 import { TEMAS } from './src/estilos/temas';
-import Rotas from "./src/Rotas";
+import Rotas from './src/Rotas';
 
 export default function App() {
   return (
@@ -11,4 +11,3 @@ export default function App() {
     </NativeBaseProvider>
   );
 }
-

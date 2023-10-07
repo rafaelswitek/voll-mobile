@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react'
-import { Box, Image, Link, Text, VStack, useToast } from 'native-base'
-import Logo from './assets/Logo.png'
+import { VStack, Image, Text, Box, Link, useToast } from 'native-base'
 import { TouchableOpacity } from 'react-native';
-import { Titulo } from './componentes/Titulo';
-import { EntradaTexto } from './componentes/EntradaTexto';
+import Logo from './assets/Logo.png'
 import { Botao } from './componentes/Botao';
+import { EntradaTexto } from './componentes/EntradaTexto';
+import { Titulo } from './componentes/Titulo';
+import { useEffect, useState } from 'react';
 import { fazerLogin } from './servicos/AutenticacaoServico';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
+import { NavigationProps } from './@types/navigation';
 
-
-export default function Login({ navigation }) {
-  const [email, setEmail] = useState('andre@email.com')
-  const [senha, setSenha] = useState('1234')
+export default function Login({ navigation }: NavigationProps<'Login'>) {
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
   const [carregando, setCarregando] = useState(true)
   const toast = useToast()
 
@@ -27,17 +27,23 @@ export default function Login({ navigation }) {
     verificarLogin()
   }, [])
 
+  interface TokenProps {
+    token: string;
+    id: string;
+  }
+
   async function login() {
     const resultado = await fazerLogin(email, senha)
     if (resultado) {
       const { token } = resultado
       AsyncStorage.setItem('token', token)
 
-      const tokenDecodificado = jwtDecode(token) as any
+      const tokenDecodificado = jwtDecode(token) as TokenProps
       const pacienteId = tokenDecodificado.id
       AsyncStorage.setItem('pacienteId', pacienteId)
       navigation.replace('Tabs')
-    } else {
+    }
+    else {
       toast.show({
         title: "Erro no login",
         description: "O email ou senha não conferem",
@@ -51,8 +57,9 @@ export default function Login({ navigation }) {
   }
 
   return (
-    <VStack flex={1} alignItems="center" p={5}>
+    <VStack flex={1} alignItems="center" justifyContent="center" p={5}>
       <Image source={Logo} alt="Logo Voll" />
+
       <Titulo>
         Faça login em sua conta
       </Titulo>
@@ -63,18 +70,15 @@ export default function Login({ navigation }) {
           value={email}
           onChangeText={setEmail}
         />
-
         <EntradaTexto
           label="Senha"
+          placeholder="Insira sua senha"
           value={senha}
           onChangeText={setSenha}
           secureTextEntry
         />
       </Box>
-
-      <Botao onPress={() => login()}>
-        Entrar
-      </Botao>
+      <Botao onPress={login}>Entrar</Botao>
 
       <Link href='https://www.alura.com.br' mt={2}>
         Esqueceu sua senha?
