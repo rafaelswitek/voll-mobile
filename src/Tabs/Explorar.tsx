@@ -1,18 +1,37 @@
-import { ScrollView } from "native-base";
+import { useState, useEffect } from 'react'
+import { ScrollView, VStack } from "native-base";
 import { CardConsulta } from "../componentes/CardConsulta";
 import { Titulo } from "../componentes/Titulo";
 import { AreaBusca } from "../componentes/AreaBusca";
+import { Especialista } from '../interfaces/Especialista';
 
-export default function Explorar() {
+export default function Explorar({ navigation }) {
+  const [estado, setEstado] = useState('')
+  const [especialidade, setEspecialidade] = useState('')
+  const [resultadoBusca, setResultadoBusca] = useState([])
   return (
     <ScrollView p={5}>
-      <AreaBusca />
+      <AreaBusca
+        especialidade={especialidade}
+        setEspecialidade={setEspecialidade}
+        estado={estado}
+        setEstado={setEstado}
+        resultadoBusca={resultadoBusca}
+        setResultadoBusca={setResultadoBusca}
+      />
 
       <Titulo color='blue.500' mt={5} mb={5}>Resultados da busca</Titulo>
 
-      <CardConsulta nome="Dr. Who" especialidade="Geral" foto="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Jodie_Whittaker_by_Gage_Skidmore.jpg/1200px-Jodie_Whittaker_by_Gage_Skidmore.jpg" />
-      <CardConsulta nome="Dr. Who" especialidade="Geral" foto="https://br.web.img3.acsta.net/pictures/18/01/22/11/15/3775793.jpg" />
-      <CardConsulta nome="Dr. Who" especialidade="Geral" foto="https://br.web.img3.acsta.net/pictures/19/03/14/21/05/3188295.jpg" />
+      {resultadoBusca?.map((especialista: Especialista, index) => (
+        <VStack flex={1} w="100%" alignItems="flex-start" bgColor="white" key={index}>
+          <CardConsulta
+            especialidade={especialista.especialidade}
+            foto={especialista.imagem}
+            nome={especialista.nome}
+            onPress={() => navigation.navigate('Agendamento', {especialistaId: especialista.id})}
+          />
+        </VStack>
+      ))}
     </ScrollView>
   );
 }
